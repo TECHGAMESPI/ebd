@@ -2,7 +2,7 @@
 
 namespace App\Livewire\material;
 
-use App\Models\Material;
+use App\Models\material;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;

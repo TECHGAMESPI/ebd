@@ -6,6 +6,7 @@ use App\Models\{Turma, User, Chamada, UsuariosPorIgreja};
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RelatorioPeriodoController extends Controller
 {
@@ -274,5 +275,70 @@ class RelatorioPeriodoController extends Controller
         }
 
         return $diasAula;
+    }
+
+    public function gerarPdf(Request $request)
+    {
+        $request->validate([
+            'tipo_periodo' => 'required|in:mensal,semestral,anual',
+            'ano' => 'required|integer|min:2020|max:' . (date('Y') + 1),
+            'mes' => 'required_if:tipo_periodo,mensal|integer|min:1|max:12',
+            'semestre' => 'required_if:tipo_periodo,semestral|integer|min:1|max:2',
+        ]);
+
+        try {
+            $tipoPeriodo = $request->tipo_periodo;
+            $ano = $request->ano;
+            $mes = $request->mes;
+            $semestre = $request->semestre;
+
+            // Determinar período
+            if ($tipoPeriodo === 'mensal') {
+                $dataInicio = Carbon::create($ano, $mes, 1);
+                $dataFim = $dataInicio->copy()->endOfMonth();
+                $periodoExibicao = $dataInicio->format('F/Y');
+            } elseif ($tipoPeriodo === 'semestral') {
+                $mesInicio = ($semestre == 1) ? 1 : 7;
+                $mesFim = ($semestre == 1) ? 6 : 12;
+                $dataInicio = Carbon::create($ano, $mesInicio, 1);
+                $dataFim = Carbon::create($ano, $mesFim, 1)->endOfMonth();
+                $periodoExibicao = $semestre . 'º Semestre/' . $ano;
+            } else { // anual
+                $dataInicio = Carbon::create($ano, 1, 1);
+                $dataFim = Carbon::create($ano, 12, 31);
+                $periodoExibicao = 'Ano ' . $ano;
+            }
+
+            $dados = $this->processarDados($dataInicio, $dataFim);
+
+            $pdf = Pdf::loadView('relatorios.periodo.pdf', [
+                'tipoPeriodo' => $tipoPeriodo,
+                'periodoExibicao' => $periodoExibicao,
+                'dataInicio' => $dataInicio->format('d/m/Y'),
+                'dataFim' => $dataFim->format('d/m/Y'),
+                'dados' => $dados
+            ]);
+
+            $pdf->setOptions([
+                'isHtml5ParserEnabled' => true,
+                'isPhpEnabled' => true,
+                'defaultFont' => 'DejaVu Sans',
+                'charset' => 'utf-8',
+                'enable_remote' => true,
+                'enable_css_float' => true,
+                'enable_javascript' => false,
+                'is_remote_enabled' => true
+            ]);
+
+            $pdf->setPaper('A4', 'portrait');
+
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->stream();
+            }, 'relatorio-periodo-' . $periodoExibicao . '.pdf');
+
+        } catch (\Exception $e) {
+            \Log::error('Erro ao gerar PDF do relatório por período:', ['error' => $e->getMessage()]);
+            return back()->with('error', 'Erro ao gerar o PDF');
+        }
     }
 }

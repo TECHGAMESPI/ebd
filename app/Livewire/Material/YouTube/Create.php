@@ -2,7 +2,7 @@
 
 namespace App\Livewire\material\YouTube;
 
-use App\Models\Material;
+use App\Models\material;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;

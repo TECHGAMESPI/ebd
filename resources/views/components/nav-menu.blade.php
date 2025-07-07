@@ -122,6 +122,11 @@
                                 <i class="fas fa-calendar-alt"></i> Relatórios por Período
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('relatorio.geral-dia.index') }}">
+                                <i class="fas fa-calendar-day"></i> Relatório Geral do Dia
+                            </a>
+                        </li>
                     </ul>
                 </li>
             @endcan

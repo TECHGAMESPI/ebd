@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Comment;
 
-use App\Models\Material;
+use App\Models\material;
 use Livewire\Component;
 
 class Create extends Component

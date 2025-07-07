@@ -153,6 +153,22 @@ Route::middleware(['auth'])->group(function () {
         ->name('relatorio.periodo.index');
     Route::get('/relatorio-periodo/gerar', [App\Http\Controllers\RelatorioPeriodoController::class, 'gerarRelatorio'])
         ->name('relatorio.periodo.gerar');
+
+    // Rotas para relatório geral do dia
+    Route::get('/relatorio-geral-dia', [App\Http\Controllers\RelatorioGeralDiaController::class, 'index'])
+        ->name('relatorio.geral-dia.index');
+    Route::get('/relatorio-geral-dia/gerar', [App\Http\Controllers\RelatorioGeralDiaController::class, 'gerarRelatorio'])
+        ->name('relatorio.geral-dia.gerar');
+    Route::get('/relatorio-geral-dia/pdf', [App\Http\Controllers\RelatorioGeralDiaController::class, 'gerarPdf'])
+        ->name('relatorio.geral-dia.pdf');
+
+    // Rotas para relatório geral
+    Route::get('/relatorio-geral/pdf', [App\Http\Controllers\RelatorioGeralController::class, 'gerarPdf'])
+        ->name('relatorio.geral.pdf');
+
+    // Rotas para relatório por período
+    Route::get('/relatorio-periodo/pdf', [App\Http\Controllers\RelatorioPeriodoController::class, 'gerarPdf'])
+        ->name('relatorio.periodo.pdf');
 });
 
 Route::get('/sair', function () {

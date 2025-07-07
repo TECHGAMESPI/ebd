@@ -448,17 +448,23 @@
         <div class="row mb-3">
             <div class="col-lg-6 col-md-8 col-12">
                 <div class="form-mobile">
-                    <form action="{{ route('relatorio.geral') }}" method="GET" class="form-row-mobile">
+                    <form action="{{ route('relatorio.geral') }}" method="GET" class="form-row-mobile align-items-center" style="gap: 0.5rem;">
                         <input type="date"
                                name="data"
                                class="form-control input-date-mobile"
+                               style="max-width: 160px; min-width: 140px; width: 100px; display: inline-block; margin-right: 0.5rem;"
                                value="{{ $dataFormatada ?? date('Y-m-d') }}"
                                required
                                max="{{ date('Y-m-d') }}">
 
-                        <button type="submit" class="btn btn-primary btn-gerar">
+                        <button type="submit" class="btn btn-primary btn-gerar ml-1" style="margin-right: 0.3rem;">
                             <i class="fas fa-search"></i> Gerar
                         </button>
+
+                        <a href="{{ route('relatorio.geral.pdf', ['data' => $dataFormatada ?? date('Y-m-d')]) }}"
+                           class="btn btn-danger btn-gerar ml-1" target="_blank">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </a>
                     </form>
                 </div>
             </div>
@@ -469,7 +475,7 @@
             <div class="d-flex align-items-center mb-3 flex-wrap">
                 <img src="https://ebd.hiveble.com.br/img/missao-png.png" alt="Logo da ipp" class="mr-3">
                 <div class="flex-grow-1">
-                    <h2 class="mb-1">Relatório Geral - EBD da IPB Piçarreira - Dia {{ $dataExibicao }}</h2>
+                    <h2 class="mb-1">Relatório Geral - EBD da Igreja Presbiteriana da Piçarreira - Dia {{ $dataExibicao }}</h2>
                     <h6>Powered by <a href="https://techgamespi.vercel.app/" target="_blank">José Cândido(ZECA)</a></h6>
                 </div>
             </div>

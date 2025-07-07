@@ -2,7 +2,7 @@
 
 namespace App\Livewire\material\File;
 
-use App\Models\Material;
+use App\Models\material;
 use Illuminate\Database\QueryException;
 use Livewire\{Component, WithFileUploads};
 

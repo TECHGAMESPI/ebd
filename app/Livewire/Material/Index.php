@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Material;
 
-use App\Models\{Material, Perfil};
+use App\Models\{material, Perfil};
 use Illuminate\Database\QueryException;
 use Livewire\Component;
 use Livewire\WithPagination;

@@ -43,7 +43,7 @@
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Login
                                 </button>
-                                <div class="text-center mt-2 ">
+                                <!-- <div class="text-center mt-2 ">
                                     <p>ou</p>
                                 </div>
 
@@ -60,7 +60,7 @@
                                                 com Google</span>
                                         </div>
                                     </a>
-                                </div>
+                                </div> -->
                             </form>
                         </div>
                     </div>
