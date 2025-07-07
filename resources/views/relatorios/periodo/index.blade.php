@@ -92,6 +92,10 @@
                                             <i class="fas fa-search me-1"></i>
                                             Gerar Relatório
                                         </button>
+                                        <button type="button" class="btn btn-danger btn-gerar-periodo" id="btnPdf">
+                                            <i class="fas fa-file-pdf me-1"></i>
+                                            Gerar PDF
+                                        </button>
                                         <button type="reset" class="btn btn-secondary">
                                             <i class="fas fa-undo me-1"></i>
                                             Limpar
@@ -204,6 +208,7 @@
             const divSemestre = document.getElementById('div_semestre');
             const mes = document.getElementById('mes');
             const semestre = document.getElementById('semestre');
+            const btnPdf = document.getElementById('btnPdf');
 
             tipoPeriodo.addEventListener('change', function() {
                 // Ocultar todos os campos específicos
@@ -232,6 +237,44 @@
             // Definir semestre atual como padrão
             const semestreAtual = mesAtual <= 6 ? 1 : 2;
             semestre.value = semestreAtual;
+
+            // Funcionalidade do botão PDF
+            btnPdf.addEventListener('click', function() {
+                const form = document.getElementById('formRelatorio');
+                const formData = new FormData(form);
+                const params = new URLSearchParams();
+
+                // Adicionar parâmetros do formulário
+                for (let [key, value] of formData.entries()) {
+                    if (value) {
+                        params.append(key, value);
+                    }
+                }
+
+                // Validar campos obrigatórios
+                const tipoPeriodo = formData.get('tipo_periodo');
+                const ano = formData.get('ano');
+
+                if (!tipoPeriodo || !ano) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+
+                // Validar campos específicos
+                if (tipoPeriodo === 'mensal' && !formData.get('mes')) {
+                    alert('Por favor, selecione o mês.');
+                    return;
+                }
+
+                if (tipoPeriodo === 'semestral' && !formData.get('semestre')) {
+                    alert('Por favor, selecione o semestre.');
+                    return;
+                }
+
+                // Gerar URL para PDF
+                const pdfUrl = '{{ route("relatorio.periodo.pdf") }}?' + params.toString();
+                window.open(pdfUrl, '_blank');
+            });
         });
     </script>
 </x-app-layout>

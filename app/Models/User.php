@@ -153,7 +153,7 @@ class User extends Authenticatable
 
     public function materials()
     {
-        return $this->hasMany(Material::class);
+        return $this->hasMany(material::class);
     }
 
     public function comentarios()

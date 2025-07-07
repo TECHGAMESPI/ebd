@@ -24,9 +24,9 @@ class Create extends Component
             ->orderBy('users.name', 'ASC')
             ->paginate($this->perpage);
 
-        //if (auth()->user()->perfil_id == Perfil::PROFESSOR) {
-            //$turmas = $this->getTurmas();
-        // }
+        if (auth()->user()->perfil_id == Perfil::PROFESSOR) {
+            $turmas = $this->getTurmas();
+        }
 
         return view('livewire.student.create', ['turmas' => $turmas, 'alunos' => $alunos]);
     }

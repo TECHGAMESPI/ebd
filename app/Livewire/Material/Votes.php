@@ -2,7 +2,7 @@
 
 namespace App\Livewire\material;
 
-use App\Models\{AvaliacaoMaterial, Material};
+use App\Models\{Avaliacaomaterial, material};
 use Livewire\Component;
 
 class Votes extends Component
@@ -18,13 +18,13 @@ class Votes extends Component
     public function mount()
     {
         $this->getVote();
-        $this->votes = AvaliacaoMaterial::where('material_id', $this->material->id)
+        $this->votes = Avaliacaomaterial::where('material_id', $this->material->id)
             ->first();
     }
 
     public function getVote()
     {
-        $this->vote = AvaliacaoMaterial::where(['user_id' => auth()->user()->id, 'material_id' => $this->material->id])->first();
+        $this->vote = Avaliacaomaterial::where(['user_id' => auth()->user()->id, 'material_id' => $this->material->id])->first();
     }
 
     public function render()
@@ -41,7 +41,7 @@ class Votes extends Component
 
             return to_route('material.show', $this->material->id);
         }
-        AvaliacaoMaterial::create($data);
+        Avaliacaomaterial::create($data);
         $this->getVote();
         toastr()->addSuccess('Voto registrado', 'Sucesso');
 

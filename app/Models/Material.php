@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Material\{Arquivo, LinkExterno, Texto, YouTube};
+use App\Models\material\{Arquivo, LinkExterno, Texto, YouTube};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class material extends Model
+class Material extends Model
 {
     use HasFactory;
 
